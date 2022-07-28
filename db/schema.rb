@@ -10,7 +10,46 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_25_004822) do
+ActiveRecord::Schema.define(version: 2022_07_25_020118) do
+
+  create_table "disciplines", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string "jump_discipline"
+    t.integer "load_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["load_id"], name: "index_groups_on_load_id"
+  end
+
+  create_table "jumpers", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.string "phone"
+    t.string "emergency_phone"
+    t.string "license_number"
+    t.integer "dz_jump_count"
+    t.integer "group_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id"], name: "index_jumpers_on_group_id"
+    t.index ["user_id"], name: "index_jumpers_on_user_id"
+  end
+
+  create_table "loads", force: :cascade do |t|
+    t.string "pilot_name"
+    t.datetime "departs_at"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_loads_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "first_name", null: false

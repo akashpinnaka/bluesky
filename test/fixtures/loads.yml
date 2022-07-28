@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  pilot_name: MyString
+  departs_at: 2022-07-24 18:43:52
+  user: one
+
+two:
+  pilot_name: MyString
+  departs_at: 2022-07-24 18:43:52
+  user: two

@@ -1,0 +1,4 @@
+$(".create-new-group").hide();
+
+$("#load-board-<%= @load.id %>").append(
+  '<div class="board-group"><h6 class="jump-discpline"><%= @new_group.jump_discipline.upcase %><%= link_to "", class: "add-jumper" do %><i class="fa-solid fa-user-plus"></i><% end %></h6><ul><% @new_group.jumpers.each do |jumper| %><li class=<%= cycle('odd', 'even') %>><%= jumper.first_name + " " + jumper.last_name %></li><% end %></ul><div class="delete-link"><%= link_to "Delete", load_group_path(@load, @new_group), method: :delete, remote: true, data: {confirm: "Delete the group?"} %></div></div>');

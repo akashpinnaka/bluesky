@@ -1,2 +1,81 @@
-<h1>Home#dashboard</h1>
-<p>Find me in app/views/home/dashboard.html.erb</p>
+<div id="main" ng-app="dashboardApp" ng-controller="dashboardController" ng-init="init()" ng-cloak>
+  <aside id="sidebar">
+    <div id="profile">
+      <div id="image-wrapper">
+        <img src="https://www.w3schools.com/html/img_girl.jpg" />
+      </div>
+      <div id="about">
+        <h2><%= current_user.first_name + " " + current_user.last_name %></h2>
+        <div id="user-links">
+          <%= link_to "Profile", edit_user_registration_path %> |
+          <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div id="navigation">
+      <ul>
+        <li><a href="">Load Boards</a></li>
+        <li><a href="">Rental Gear</a></li>
+        <li><a href="">Manage Privacy</a></li>
+      </ul>
+    </div>
+
+  </aside>
+  <div id="content">
+    <div id="content-inner">
+      <% @current_user_loads.each do |load| %>
+        <div class="load-board" id="load-board-<%= load.id %>">
+          <a class="add-group" id="add-group-for-load-<%= load.id %>" href="" ng-click="dislayDisciplines(true, <%= load.id %>)"><i class="fa-solid fa-plus"></i></a>
+          <div class="create-new-group" id="create-new-group-<%= load.id %>" ng-show="showDisciplines && loadId == <%= load.id %>">
+            <ul>
+              <a class="close-disciplines" href="" ng-click="dislayDisciplines(false, <%= load.id %>)"><i class="fa-solid fa-rectangle-xmark"></i></a>
+              <% @disciplines.each do |discipline| %>
+                <li class="disciplines-list">
+                  <%= link_to discipline.name, load_groups_path(load, discipline_name: discipline.name), method: :post, remote: true %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+          <% load.groups.each do |group| %>
+
+            <!-- <div class="add-jumper">
+              <div class="jumpers-container">
+                <div class="search">
+                  
+                </div>
+                <div class="jumpers-list">
+                  
+                </div>
+              </div>
+            </div> -->
+
+            <div class="board-group" id="board-group-<%= group.id %>">
+              <h6 class="jump-discpline">
+                <%= group.jump_discipline.upcase %>
+                <%= link_to "", class: "add-jumper" do %>
+                  <i class="fa-solid fa-user-plus"></i>
+                <% end %>
+               </h6>
+              <ul>
+                <% group.jumpers.each do |jumper| %>
+                  <li class=<%= cycle('odd', 'even') %>><%= jumper.first_name + " " + jumper.last_name %></li>
+                <% end %>
+              </ul>
+              <div class="delete-link">
+                <%= link_to "Delete", load_group_path(load, group), method: :delete, remote: true, data: {confirm: "Delete the group?"} %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+      <div id="next-load-button">
+        <%= link_to loads_path, method: :post, remote: true do %>
+          <i class="fa-solid fa-plane-departure"></i> Another Load
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
